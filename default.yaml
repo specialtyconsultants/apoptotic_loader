@@ -1,29 +1,74 @@
-# Default configuration for the Apoptotic Loader stack
-# All time values are in seconds unless otherwise specified
+# ============================================================================
+# Apoptotic Model Loading — Default Configuration
+# ============================================================================
+# Every AI model on a robot gets a time-to-live. At expiration, it reloads
+# from a cryptographically verified checkpoint. No accumulated drift.
+# No silent degradation. Programmed cell death for machine intelligence.
+#
+# License: Apache-2.0
+# Contact: craig.mcclurkin@louisville.edu
+# ============================================================================
 
+# --- Checkpoint Registry ---------------------------------------------------
+checkpoint_registry:
+  ros__parameters:
+    # URI to the model checkpoint (local path or s3://)
+    checkpoint_uri: "/opt/apoptotic/checkpoints/default_model.pt"
+    # SHA-256 hash of the verified checkpoint
+    checkpoint_hash: ""
+    # How often to re-verify checkpoint integrity on disk (seconds)
+    integrity_check_interval: 3600.0
+    # Maximum retries for checkpoint verification before failing
+    max_verify_retries: 3
+
+# --- Apoptotic Manager (Core Lifecycle Controller) -------------------------
 apoptotic_manager:
   ros__parameters:
-    # Time-to-live for the model state
-    # Common values: 86400 (24h), 43200 (12h), 28800 (8h)
+    # Model identifier
+    model_name: "default_model"
+    # Time-to-live in seconds: 86400 (24h) | 43200 (12h) | 28800 (8h)
     ttl_seconds: 86400
-    
-    # Name of the model to be loaded by the manager
-    model_name: "welding_arm"
+    # Action on TTL expiration: "reload" or "safe_stop"
+    on_expire: "reload"
+    # Action on reload failure: "safe_stop" or "hold"
+    on_fail: "safe_stop"
+    # Enable drift-triggered early expiration
+    early_expire_on_drift: true
+    # Maximum consecutive reload failures before permanent safe-stop
+    max_reload_failures: 3
+    # How often to publish TTL countdown (seconds)
+    countdown_publish_rate: 10.0
+    # Grace period for reload (seconds) — robot holds position during reload
+    reload_grace_seconds: 30.0
 
+# --- Drift Observer --------------------------------------------------------
 drift_observer:
   ros__parameters:
-    # Sensitivity for behavioral divergence tracking
-    # Range: 0.01 (sensitive) to 0.10 (relaxed)
+    # KL divergence threshold: 0.01 (sensitive) → 0.10 (relaxed)
     kl_threshold: 0.05
-    
-    # Flag to trigger model death before TTL if drift is detected
-    early_expire_on_drift: true
+    # Check drift every N inferences
+    sample_rate: 100
+    # Enable early expiration trigger on drift alert
+    early_expire: true
+    # Entropy ratio warning threshold
+    entropy_ratio_threshold: 1.5
+    # Latency anomaly threshold (multiplier of baseline mean latency)
+    latency_anomaly_multiplier: 3.0
+    # Rolling window size for baseline statistics
+    baseline_window_size: 1000
+    # Publish drift report interval (seconds)
+    drift_report_interval: 60.0
 
+# --- Safe Stop Controller --------------------------------------------------
 safe_stop_controller:
   ros__parameters:
-    # Method used to halt the robot during model expiration
-    # Options: velocity_ramp, immediate_hold, return_home
+    # Stop type: "velocity_ramp" | "immediate_hold" | "return_home"
     stop_type: "velocity_ramp"
-    
-    # Threshold for triggering operator alerts
-    alert_velocity_threshold: 0.1
+    # Velocity ramp-down duration (seconds)
+    ramp_down_seconds: 5.0
+    # Require operator clearance before resuming after safe-stop
+    require_operator_clearance: true
+    # Operator notification topic (std_msgs/String)
+    # Downstream systems subscribe to ~/operator_alert
+    # Home position for return_home stop type [x, y, z, roll, pitch, yaw]
+    home_position: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
