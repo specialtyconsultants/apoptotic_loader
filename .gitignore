@@ -1,0 +1,16 @@
+# Python build/cache
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+
+# ROS 2 build artifacts
+build/
+install/
+log/
+
+# Windows system files
+.DS_Store
+Thumbs.db
+desktop.ini
+$RECYCLE.BIN/
