@@ -1,0 +1,29 @@
+# Default configuration for the Apoptotic Loader stack
+# All time values are in seconds unless otherwise specified
+
+apoptotic_manager:
+  ros__parameters:
+    # Time-to-live for the model state
+    # Common values: 86400 (24h), 43200 (12h), 28800 (8h)
+    ttl_seconds: 86400
+    
+    # Name of the model to be loaded by the manager
+    model_name: "welding_arm"
+
+drift_observer:
+  ros__parameters:
+    # Sensitivity for behavioral divergence tracking
+    # Range: 0.01 (sensitive) to 0.10 (relaxed)
+    kl_threshold: 0.05
+    
+    # Flag to trigger model death before TTL if drift is detected
+    early_expire_on_drift: true
+
+safe_stop_controller:
+  ros__parameters:
+    # Method used to halt the robot during model expiration
+    # Options: velocity_ramp, immediate_hold, return_home
+    stop_type: "velocity_ramp"
+    
+    # Threshold for triggering operator alerts
+    alert_velocity_threshold: 0.1
