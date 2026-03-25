@@ -39,7 +39,6 @@ cd ~/ros2_ws
 colcon build --packages-select apoptotic_loader
 source install/setup.bash
 
-#____________________________________________________________________________________
 
 Usage
 Launching the Automation Stack
@@ -50,6 +49,8 @@ To run the drift telemetry and memory hygiene unit tests:
 
 Bash
 python3 test/test_standalone.py
+
+#
 SRE & Industrial Context
 This framework addresses the unique challenges of Edge AI in Manufacturing:
 
