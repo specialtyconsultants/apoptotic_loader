@@ -1,5 +1,8 @@
 # Apoptotic Model Loading: Immutable AI Infrastructure for ROS 2
 
+# KL, TTL, & Manual Override Tests:
+# https://specialtyconsultants.co/aml-tests/
+
 **Deterministic Model Lifecycle Management and Drift-Integrated Circuit Breaking**
 
 [![ROS 2](https://img.shields.io/badge/ROS_2-Humble-blue.svg)](https://docs.ros.org/en/humble/)
