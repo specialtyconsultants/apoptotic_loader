@@ -1,8 +1,5 @@
 # Apoptotic Model Loading: Immutable AI Infrastructure for ROS 2
 
-# KL, TTL, & Manual Override Tests:
-# https://specialtyconsultants.co/aml-tests/
-
 **Deterministic Model Lifecycle Management and Drift-Integrated Circuit Breaking**
 
 [![ROS 2](https://img.shields.io/badge/ROS_2-Humble-blue.svg)](https://docs.ros.org/en/humble/)
@@ -62,6 +59,9 @@ Elimination of State Leakage: Guarantees that the model starts from a 0-entropy 
 Deterministic Reliability: Replaces "reboot when it breaks" with proactive, programmed recycling.
 
 Mechanical Safety: Integrates high-level AI health monitoring directly with low-level motion control.
+
+# KL, TTL, & Manual Override Tests:
+# https://specialtyconsultants.co/aml-tests/
 
 Lead Engineer: Craig McClurkin
 
